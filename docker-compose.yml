@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:latest
+    container_name: hr_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: hr_system
+      restart:
+        always
+    ports:
+      - "5432:5432"
+    volumes:
+      - "E:/hr/postgres_data:/var/lib/postgresql/data"
+    networks:
+      - hr_network
+
+volumes:
+  db_data:
+
+networks:
+  hr_network:
