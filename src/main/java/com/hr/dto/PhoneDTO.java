@@ -10,8 +10,8 @@ public class PhoneDTO {
     private Long employeeId;
 
     @JsonIgnore
-    @JsonProperty("employee")  // لو عايزة تمسحيه من الاستجابة
-    private EmployeeDTO employee;  // تأكد من وجود الحقل ده
+    @JsonProperty("employee")
+    private EmployeeDTO employee;
 
     public PhoneDTO() {
     }
@@ -21,6 +21,12 @@ public class PhoneDTO {
         this.phoneNumber = phoneNumber;
         this.employeeId = employeeId;
         this.employee = employee;
+    }
+
+    public PhoneDTO(Long id,String phoneNumber, Long aLong) {
+        this.id = id;
+        this.phoneNumber = phoneNumber;
+        this.employeeId = aLong;
     }
 
     public Long getId() {

@@ -1,7 +1,6 @@
 package com.hr.controller;
 
 import com.hr.dto.EmailDTO;
-import com.hr.model.Email;
 import com.hr.service.EmailService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +25,8 @@ public class EmailController {
 
     @PostMapping
     public ResponseEntity<EmailDTO> createEmail(@RequestBody EmailDTO emailDTO) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(emailService.createEmail(emailDTO));
+        EmailDTO createdEmail = emailService.createEmail(emailDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdEmail);
     }
 
 

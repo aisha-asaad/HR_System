@@ -26,60 +26,41 @@ public class PhoneService {
         this.employeeRepository = employeeRepository;
     }
 
-//    public List<PhoneDTO> getPhonesByEmployeeId(Long employeeId) {
-//        return phoneRepository.findByEmployeeId(employeeId)
-//                .stream()
-//                .map(PhoneMapper::toDTO)
-//                .toList();
-//    }
-
-//    public PhoneDTO getPhoneById(Long id) {
-//        Phone phone = phoneRepository.findById(id)
-//                .orElseThrow(() -> new ResourceNotFoundException("Phone not found"));
-//
-//        return PhoneMapper.toDTO(phone);  // تحويل Phone إلى PhoneDTO
-//    }
 
     public PhoneDTO createPhone(PhoneDTO phoneDTO, Long employeeId) {
-        // جلب الموظف
+
         Employee employee = employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new ResourceNotFoundException("Employee not found"));
 
-        // ربط الهاتف بالموظف
-        Phone phone = PhoneMapper.toEntity(phoneDTO, employee);  // هنا بنمرر الـ Employee كمان
+        Phone phone = PhoneMapper.toEntity(phoneDTO, employee);
 
-        // حفظ الهاتف في قاعدة البيانات
         phoneRepository.save(phone);
 
-        // إرجاع الـ DTO
         return PhoneMapper.toDTO(phone);
     }
 
 
     public PhoneDTO getPhoneById(Long id) {
         Phone phone = phoneRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Phone not found"));
-        return PhoneMapper.toDTO(phone);  // تأكد من الـ Mapping بشكل صحيح
+        return PhoneMapper.toDTO(phone);
     }
 
     public PhoneDTO updatePhone(Long id, PhoneDTO phoneDTO) {
-        // البحث عن الهاتف بواسطة الـ ID
+
         Phone phone = phoneRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Phone not found"));
 
-        // تحديث الهاتف
         phone.setPhoneNumber(phoneDTO.getPhoneNumber());
 
-        // تعيين الموظف إذا كان موجودًا
         if (phoneDTO.getEmployee() != null && phoneDTO.getEmployee().getId() != null) {
             Employee employee = employeeRepository.findById(phoneDTO.getEmployee().getId())
                     .orElseThrow(() -> new ResourceNotFoundException("Employee not found"));
-            phone.setEmployee(employee); // تعيين الموظف
+            phone.setEmployee(employee);
         }
 
-        // حفظ الهاتف المحدث
         phone = phoneRepository.save(phone);
 
-        return PhoneMapper.toDTO(phone);  // إرجاع الهاتف المحدث كـ DTO
+        return PhoneMapper.toDTO(phone);
     }
 
     public void deletePhone(Long id) {

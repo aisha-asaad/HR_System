@@ -6,14 +6,12 @@ import java.util.List;
 public class DepartmentDTO {
     private Long id;
     private String name;
-    private List<EmployeeDTO> employees;
 
     public DepartmentDTO() {}
 
-    public DepartmentDTO(Long id, String name, List<EmployeeDTO> employees) {
+    public DepartmentDTO(Long id, String name) {
         this.id = id;
         this.name = name;
-        this.employees = employees;
     }
 
     public Long getId() {
@@ -30,13 +28,5 @@ public class DepartmentDTO {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public List<EmployeeDTO> getEmployees() {
-        return employees;
-    }
-
-    public void setEmployees(List<EmployeeDTO> employees) {
-        this.employees = employees;
     }
 }

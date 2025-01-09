@@ -1,15 +1,10 @@
 package com.hr.controller;
 
 import com.hr.dto.PhoneDTO;
-import com.hr.model.Phone;
 import com.hr.service.PhoneService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/phones")
@@ -22,14 +17,8 @@ public class PhoneController {
     private final PhoneService phoneService;
 
 
-//    @GetMapping
-//    public ResponseEntity<List<PhoneDTO>> getPhonesByEmployee(@RequestParam Long employeeId) {
-//        return ResponseEntity.ok(phoneService.getPhonesByEmployeeId(employeeId));
-//    }
-
     @PostMapping
     public ResponseEntity<PhoneDTO> createPhone(@RequestBody PhoneDTO phoneDTO, @RequestParam Long employeeId) {
-        // استدعاء خدمة إنشاء الهاتف وتعيين الموظف
         PhoneDTO createdPhone = phoneService.createPhone(phoneDTO, employeeId);
         return ResponseEntity.ok(createdPhone);
     }

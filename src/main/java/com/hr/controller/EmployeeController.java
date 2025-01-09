@@ -1,12 +1,9 @@
 package com.hr.controller;
 
 import com.hr.dto.EmployeeDTO;
-import com.hr.model.Department;
-import com.hr.model.Employee;
-import com.hr.repository.DepartmentRepository;
 import com.hr.service.EmployeeService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,8 +36,9 @@ public class EmployeeController {
 
 
     @PostMapping
-    public EmployeeDTO createEmployee(@RequestBody EmployeeDTO employeeDTO) {
-        return employeeService.createEmployee(employeeDTO);
+    public ResponseEntity<EmployeeDTO> createEmployee(@RequestBody EmployeeDTO employeeDTO) {
+        EmployeeDTO savedEmployee = employeeService.createEmployee(employeeDTO);
+        return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")

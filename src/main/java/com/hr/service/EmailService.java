@@ -33,30 +33,26 @@ public class EmailService {
     }
 
     public EmailDTO createEmail(EmailDTO dto) {
-        // تحويل DTO إلى كيان
+
         Email email = EmailMapper.toEntity(dto);
 
-        // التحقق من وجود الموظف وربط البريد الإلكتروني به
         if (dto.getEmployeeId() != null) {
             Employee employee = employeeRepository.findById(dto.getEmployeeId())
                     .orElseThrow(() -> new ResourceNotFoundException("Employee not found"));
             email.setEmployee(employee);
         }
 
-        // حفظ البريد الإلكتروني
         return EmailMapper.toDTO(emailRepository.save(email));
     }
 
 
     public EmailDTO updateEmail(Long id, EmailDTO dto) {
-        // التحقق من وجود البريد الإلكتروني
+
         Email email = emailRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Email not found"));
 
-        // تحديث الحقول
         email.setEmail(dto.getEmail());
 
-        // التحقق من وجود الموظف وربطه بالبريد الإلكتروني
         if (dto.getEmployeeId() != null) {
             Employee employee = employeeRepository.findById(dto.getEmployeeId())
                     .orElseThrow(() -> new ResourceNotFoundException("Employee not found"));
@@ -65,7 +61,6 @@ public class EmailService {
             throw new IllegalArgumentException("Employee ID is required for updating email.");
         }
 
-        // حفظ البريد الإلكتروني
         return EmailMapper.toDTO(emailRepository.save(email));
     }
 

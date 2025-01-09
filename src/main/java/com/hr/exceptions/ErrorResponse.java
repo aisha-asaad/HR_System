@@ -10,7 +10,6 @@ public class ErrorResponse  {
         this.message = message;
     }
 
-    // Getters and Setters
     public String getCode() {
         return code;
     }

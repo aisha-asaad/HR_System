@@ -10,7 +10,7 @@ public class Phone {
     private String phoneNumber;
 
     @ManyToOne
-    @JoinColumn(name = "employee_id")
+    @JoinColumn(name = "employee_id", nullable = false)
     private Employee employee;
 
     public Phone() {}

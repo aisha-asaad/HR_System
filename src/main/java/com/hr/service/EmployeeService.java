@@ -1,6 +1,8 @@
 package com.hr.service;
 
+import com.hr.dto.EmailDTO;
 import com.hr.dto.EmployeeDTO;
+import com.hr.dto.PhoneDTO;
 import com.hr.exceptions.ResourceNotFoundException;
 import com.hr.mapper.EmailMapper;
 import com.hr.mapper.EmployeeMapper;
@@ -17,12 +19,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Service
-public class EmployeeService{
+public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
     private final DepartmentRepository departmentRepository;
@@ -44,50 +46,48 @@ public class EmployeeService{
     }
 
     public EmployeeDTO createEmployee(EmployeeDTO dto) {
-        // تحويل DTO إلى كيان
         Employee employee = EmployeeMapper.toEntity(dto);
 
-        // ربط القسم (Department)
+        for (Phone phone : employee.getPhones()) {
+            phone.setEmployee(employee);
+        }
+
+        for (Email email : employee.getEmails()) {
+            email.setEmployee(employee);
+        }
+
+
         if (dto.getDepartmentId() != null) {
             Department department = departmentRepository.findById(dto.getDepartmentId())
                     .orElseThrow(() -> new ResourceNotFoundException("Department not found"));
             employee.setDepartment(department);
         }
 
-        // ربط الهواتف (Phones)
         if (dto.getPhones() != null) {
-            List<Phone> phones = dto.getPhones().stream()
-                    .map(phoneDTO -> {
-                        Phone phone = PhoneMapper.toEntity(phoneDTO, employee);
-                        phone.setEmployee(employee); // ربط الهاتف بالموظف
-                        return phone;
-                    })
-                    .collect(Collectors.toList());
+            List<Phone> phones = new ArrayList<>();
+            for (PhoneDTO phoneDTO : dto.getPhones()) {
+                phones.add(PhoneMapper.toEntity(phoneDTO, employee));
+            }
             employee.setPhones(phones);
         }
 
-        // ربط البريد الإلكتروني (Emails)
         if (dto.getEmails() != null) {
-            List<Email> emails = dto.getEmails().stream()
-                    .map(emailDTO -> {
-                        Email email = EmailMapper.toEntity(emailDTO);
-                        email.setEmployee(employee); // ربط البريد بالموظف
-                        return email;
-                    })
-                    .collect(Collectors.toList());
+            List<Email> emails = new ArrayList<>();
+            for (EmailDTO emailDTO : dto.getEmails()) {
+                emails.add(EmailMapper.toEntity(emailDTO, employee));
+            }
             employee.setEmails(emails);
         }
 
-        // حفظ الموظف في قاعدة البيانات
-        return EmployeeMapper.toDTO(employeeRepository.save(employee));
-    }
+        employee=employeeRepository.save(employee);
 
+        return EmployeeMapper.toDTO(employee);
+    }
 
     public EmployeeDTO updateEmployee(Long id, EmployeeDTO dto) {
         Employee employee = employeeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Employee not found"));
         employee.setName(dto.getName());
-        // Update other fields here
         return EmployeeMapper.toDTO(employeeRepository.save(employee));
     }
 
@@ -101,7 +101,6 @@ public class EmployeeService{
     public EmployeeDTO getEmployeeById(Long id) {
         Employee employee = employeeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Employee not found"));
-
-        return EmployeeMapper.toDTO(employee);  // تحويل الـ Employee إلى EmployeeDTO باستخدام الـ EmployeeMapper
+        return EmployeeMapper.toDTO(employee);
     }
 }

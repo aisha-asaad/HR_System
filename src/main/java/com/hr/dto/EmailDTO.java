@@ -1,5 +1,7 @@
 package com.hr.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
@@ -9,16 +11,20 @@ public class EmailDTO {
     @Email(message = "Email should be valid")
     @NotBlank(message = "Email address is required")
     private String email;
-    
+
     private Long employeeId;
+
+    @JsonIgnore
+    @JsonProperty("employee")
+    private EmployeeDTO employee;
 
     public EmailDTO() {
     }
 
-    public EmailDTO(Long id, String email, Long employeeId) {
+    public EmailDTO(Long id,String email, Long aLong) {
         this.id = id;
         this.email = email;
-        this.employeeId = employeeId;
+        this.employeeId = aLong;
     }
 
     public @Email(message = "Email should be valid") @NotBlank(message = "Email address is required") String getEmail() {
@@ -29,6 +35,14 @@ public class EmailDTO {
         this.email = email;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Long getEmployeeId() {
         return employeeId;
     }
@@ -37,11 +51,12 @@ public class EmailDTO {
         this.employeeId = employeeId;
     }
 
-    public Long getId() {
-        return id;
+    public EmployeeDTO getEmployee() {
+        return employee;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setEmployee(EmployeeDTO employee) {
+        this.employee = employee;
     }
 }
+

@@ -20,6 +20,12 @@ public class EmployeeDTO {
         this.emails = emails;
     }
 
+    public EmployeeDTO(Long id, String name, Long departmentId) {
+        this.id = id;
+        this.name = name;
+        this.departmentId = departmentId;
+    }
+
     public Long getId() {
         return id;
     }

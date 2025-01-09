@@ -24,6 +24,12 @@ public class Employee {
 
     public Employee() {}
 
+    public Employee(Long id, String name, Department department) {
+        this.id = id;
+        this.name = name;
+        this.department = department;
+    }
+
     public Employee(Long id, String name, Department department, List<Phone> phones, List<Email> emails) {
         this.id = id;
         this.name = name;
