@@ -1,0 +1,11 @@
+# Ignore target folder
+target/
+
+# Ignore JAR files
+*.jar
+
+# Ignore class files
+*.class
+
+# Ignore IDE files
+.idea/
