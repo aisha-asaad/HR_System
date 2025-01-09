@@ -26,3 +26,7 @@ A Spring Boot-based HR System that manages employees, departments, phones, and e
 ### Clone the repository
 ```bash
 git clone https://github.com/aisha-asaad/HR_System.git
+
+
+## License
+© 2025 Aisha Asaad. All rights reserved.
